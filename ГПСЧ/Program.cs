@@ -103,7 +103,7 @@ internal class Program
 
             int bin = (int)(value * bins);
             if (bin == bins) bin = bins - 1;
-            histogram[bin]++;
+            histogramBlum[bin]++;
         }
 
         // === Статистика ===
@@ -129,10 +129,10 @@ internal class Program
             double binStart = (double)i / bins;
             double binEnd = (double)(i + 1) / bins;
 
-            int barLength = (int)((double)histogram[i] / maxCount * maxBarWidth);
+            int barLength = (int)((double)histogramBlum[i] / maxCount * maxBarWidth);
             string bar = new string('█', barLength);
 
-            Console.WriteLine($"{binStart:F3} - {binEnd:F3} | {bar,-60}  ({histogram[i]})");
+            Console.WriteLine($"{binStart:F3} - {binEnd:F3} | {bar,-60}  ({histogramBlum[i]})");
         }
 
         Console.WriteLine($"\nПри идеальном равномерном распределении в каждом бине {count / bins} чисел.");
