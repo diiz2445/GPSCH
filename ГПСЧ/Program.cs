@@ -7,14 +7,6 @@ internal class Program
     {
         int count = 100000;
         Graph();
-
-        //var bbs = BlumBlumShub.CreateWithStandardParameters(536320114);
-
-        //Console.WriteLine("10 первых чисел [0, 1):");
-        //for (int i = 0; i < 10; i++)
-        //{
-        //    Console.WriteLine($"{bbs.NextDouble():F8}");
-        //}
     }
 
     private static void HowLong(int count, LinearCongruentialGenerator LCG)
@@ -94,6 +86,9 @@ internal class Program
 
 
 
+
+
+        sw.Reset();
         var bbs = new BlumBlumShub(BigInteger.Parse("123456789012345"));
         int[] histogramBlum = new int[bins];
 
@@ -101,8 +96,10 @@ internal class Program
 
         for (int i = 0; i < count; i++)
         {
+            sw.Start();
             double value = bbs.NextDouble();
-            numbers.Add(value);
+            sw.Stop();
+            numbersBlum.Add(value);
 
             int bin = (int)(value * bins);
             if (bin == bins) bin = bins - 1;
@@ -111,15 +108,15 @@ internal class Program
 
         // === Статистика ===
         double meanBlum = numbers.Average();
-        double varianceBlum = numbers.Sum(x => (x - mean) * (x - mean)) / count;
+        double varianceBlum = numbers.Sum(x => (x - meanBlum) * (x - meanBlum)) / count;
 
         Console.WriteLine($"Размер модуля n ≈ {bbs.Modulus}");
         Console.WriteLine($"Сгенерировано чисел: {count}");
-        Console.WriteLine($"Среднее значение    : {mean:F8}");
-        Console.WriteLine($"Дисперсия           : {variance:F10}");
+        Console.WriteLine($"Среднее значение    : {meanBlum:F8}");
+        Console.WriteLine($"Дисперсия           : {varianceBlum:F10}");
         Console.WriteLine($"Теоретическая       : 0.0833333333");
-        Console.WriteLine($"Отклонение          : {Math.Abs(variance - 1.0 / 12):E6}\n");
-
+        Console.WriteLine($"Отклонение          : {Math.Abs(varianceBlum - 1.0 / 12):E6}\n");
+        Console.WriteLine($"Время на генерацию: {sw.Elapsed}");
         // === ASCII-гистограмма ===
         Console.WriteLine("Гистограмма распределения (50 бинов):");
         Console.WriteLine("Значение → Частота\n");
