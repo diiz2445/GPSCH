@@ -8,17 +8,6 @@ internal class Program
         int count = 100000;
         FullTest();
     }
-
-    private static void HowLong(int count, LinearCongruentialGenerator LCG)
-    {
-        Stopwatch sw = new Stopwatch();
-        LinearCongruentialGenerator exampleLCG = new LinearCongruentialGenerator();
-        sw.Start();
-        for (int i = 0; i < count; i++)
-            exampleLCG.Next();
-        sw.Stop();
-        Console.WriteLine($"LCG Генерация {count} чисел заняла: {sw.ElapsedMilliseconds}");
-    }
     static void FullTest()
     {
         Stopwatch sw = new Stopwatch();
